@@ -4,7 +4,7 @@
 def configure_vagrant_machine(hostname, vm, cpus, memory)
   is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
-  vm.box = 'boxcutter/ubuntu1604'
+  vm.box = 'bento/ubuntu-16.04'
   vm.hostname = hostname
 
   vm.provider 'virtualbox' do |vb, override|
