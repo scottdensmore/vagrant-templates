@@ -25,3 +25,9 @@ Provision Apple's [swift](https://swift.org) on linux.
 ## Vapor
 
 Provision [Vapor](https://vapor.codes) on linux.
+
+## Continuous integration
+
+Static checks parse the Ruby Vagrantfile and every tracked Bash provisioning script with preinstalled tools. They do not evaluate the Vagrantfile, load Vagrant/plugins, boot a VM, fetch boxes, read SSH keys, run provisioning, download packages, or change system settings.
+
+A passing check establishes syntax only. Ubuntu 16.04, the legacy package repositories and the provisioned services are not functionally validated; VM/provisioning modernization requires a separate approved environment. Existing scripts and configuration remain unchanged.
