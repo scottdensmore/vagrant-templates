@@ -1,0 +1,41 @@
+name: Static checks
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Parse the Vagrantfile without evaluating it
+        run: |
+          /usr/bin/ruby --version
+          /usr/bin/ruby -c Vagrantfile
+      - name: Parse every tracked provisioning script without execution
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r -d '' script; do
+            /bin/bash --noprofile --norc -n "$script"
+            echo "Syntax passed: $script"
+            count=$((count + 1))
+          done < <(git ls-files -z -- '*.sh')
+          test "$count" -gt 0
+          echo "Parsed $count Bash scripts and the Ruby Vagrantfile. Static syntax only: no Vagrant evaluation, VM, provisioning, downloads or system changes." >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify tracked sources were preserved
+        run: git diff --exit-code
