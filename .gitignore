@@ -73,3 +73,20 @@ fabric.properties
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/vagrant,webstorm,code
+
+# OS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Editor swap files and local environment
+*.swp
+*.swo
+*~
+.env
+.env.*
+!.env.example
